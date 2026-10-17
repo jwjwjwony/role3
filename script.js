@@ -1,7 +1,7 @@
 /**
  * ========================================================
- * 🏢 W.CLASSROOM - script.js
- * W Concept 에디토리얼 스타일 학급 1인 1역할 배정 및 관리 로직
+ * 🐰 미피 (Miffy / Dick Bruna) 스타일 클래스룸 1인 1역할 - script.js
+ * 딕 브루너 감성의 원색 컬러와 경쾌한 무작위 배정 로직
  * ========================================================
  */
 
@@ -110,7 +110,7 @@ let state = {
   sheetWebAppUrl: ""
 };
 
-// 3. Web Audio API 사운드 (미니멀하고 세련된 차임 & 클릭 사운드)
+// 3. Web Audio API 사운드 (장난감 실로폰 & 퐁당 팝 사운드)
 const audioCtx = (function() {
   const AudioContext = window.AudioContext || window.webkitAudioContext;
   return AudioContext ? new AudioContext() : null;
@@ -129,31 +129,32 @@ function playSound(type) {
     gain.connect(audioCtx.destination);
 
     if (type === 'pop') {
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(520, now);
-      osc.frequency.exponentialRampToValueAtTime(840, now + 0.05);
-      gain.gain.setValueAtTime(0.08, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(480, now);
+      osc.frequency.exponentialRampToValueAtTime(960, now + 0.06);
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.06);
       osc.start(now);
-      osc.stop(now + 0.05);
+      osc.stop(now + 0.06);
     } else if (type === 'fanfare') {
-      const notes = [440, 554.37, 659.25, 880]; // A4, C#5, E5, A5 (세련된 메이저 코드)
+      // 미피 느낌의 경쾌한 실로폰 도-미-솔-도 멜로디
+      const notes = [523.25, 659.25, 783.99, 1046.50];
       notes.forEach((freq, idx) => {
         const o = audioCtx.createOscillator();
         const g = audioCtx.createGain();
-        o.type = 'sine';
+        o.type = 'triangle';
         o.frequency.value = freq;
         o.connect(g);
         g.connect(audioCtx.destination);
-        const start = now + idx * 0.09;
-        g.gain.setValueAtTime(0.12, start);
-        g.gain.exponentialRampToValueAtTime(0.001, start + 0.4);
+        const start = now + idx * 0.1;
+        g.gain.setValueAtTime(0.2, start);
+        g.gain.exponentialRampToValueAtTime(0.001, start + 0.35);
         o.start(start);
-        o.stop(start + 0.4);
+        o.stop(start + 0.35);
       });
     }
   } catch (err) {
-    console.warn("Audio error:", err);
+    console.warn("오디오 재생 오류:", err);
   }
 }
 
@@ -195,12 +196,12 @@ function showToast(message, type = "info") {
   setTimeout(() => {
     toast.style.opacity = "0";
     toast.style.transform = "translateY(10px)";
-    toast.style.transition = "all 0.3s";
-    setTimeout(() => toast.remove(), 300);
+    toast.style.transition = "all 0.25s";
+    setTimeout(() => toast.remove(), 250);
   }, 2600);
 }
 
-// 6. 에디토리얼 골드/블랙/레몬 콘페티 축하 효과
+// 6. 미피 딕 브루너 5원색 콘페티 축하 효과
 function launchConfetti() {
   const canvas = document.getElementById("confetti-canvas");
   if (!canvas) return;
@@ -209,20 +210,20 @@ function launchConfetti() {
   canvas.height = window.innerHeight;
 
   const pieces = [];
-  // W Concept & Pantone Lemon Icing 컬러 팔레트 (블랙, 골드, 샴페인, 레몬아이싱)
-  const colors = ['#111111', '#F6EBC8', '#B8860B', '#D4AF37', '#E6D7AD', '#333333', '#9C7D38'];
+  // 딕 브루너의 5대 컬러 (노랑, 주황, 파랑, 초록, 빨강)
+  const colors = ['#FFCC00', '#F35C16', '#006BB6', '#009640', '#DE2B24', '#FFFFFF'];
 
-  for (let i = 0; i < 80; i++) {
+  for (let i = 0; i < 90; i++) {
     pieces.push({
       x: canvas.width / 2,
       y: canvas.height / 2,
-      vx: (Math.random() - 0.5) * 15,
-      vy: (Math.random() - 0.7) * 15,
-      size: Math.random() * 7 + 4,
+      vx: (Math.random() - 0.5) * 16,
+      vy: (Math.random() - 0.7) * 16,
+      size: Math.random() * 8 + 5,
       color: colors[Math.floor(Math.random() * colors.length)],
       rotation: Math.random() * 360,
       rotSpeed: (Math.random() - 0.5) * 8,
-      gravity: 0.25,
+      gravity: 0.26,
       opacity: 1
     });
   }
@@ -236,7 +237,7 @@ function launchConfetti() {
       p.y += p.vy;
       p.vy += p.gravity;
       p.rotation += p.rotSpeed;
-      p.opacity -= 0.01;
+      p.opacity -= 0.009;
 
       if (p.opacity > 0) {
         alive = true;
@@ -244,8 +245,12 @@ function launchConfetti() {
         ctx.translate(p.x, p.y);
         ctx.rotate((p.rotation * Math.PI) / 180);
         ctx.fillStyle = p.color;
+        // 딕 브루너 스타일의 뚜렷한 외곽선이 있는 사각형 조각
+        ctx.strokeStyle = '#1A1A1A';
+        ctx.lineWidth = 1.2;
         ctx.globalAlpha = Math.max(0, p.opacity);
-        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.65);
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.75);
+        ctx.strokeRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.75);
         ctx.restore();
       }
     });
@@ -276,11 +281,11 @@ function assignRoles(isDramatic = true) {
   if (state.isShuffling) return;
 
   if (state.students.length === 0) {
-    showToast("⚠️ 배정할 학생 명단이 없습니다.", "warning");
+    showToast("⚠️ 배정할 학생 명단이 비어 있습니다!", "warning");
     return;
   }
   if (state.roles.length === 0) {
-    showToast("⚠️ 배정할 역할 목록이 없습니다.", "warning");
+    showToast("⚠️ 배정할 역할 목록이 비어 있습니다!", "warning");
     return;
   }
 
@@ -335,7 +340,7 @@ function finalizeAssignment() {
   saveCurrentState();
   playSound('fanfare');
   launchConfetti();
-  showToast("CURATION COMPLETED : 배정이 완료되었습니다.", "success");
+  showToast("🎉 짝짝짝! 모든 역할이 공정하게 배정되었습니다!", "success");
 
   const cards = document.querySelectorAll(".role-card");
   cards.forEach(card => {
@@ -344,7 +349,7 @@ function finalizeAssignment() {
   });
 }
 
-// 9. 카드 그리드 렌더링 (W Concept Lookbook Card Style)
+// 9. 카드 그리드 렌더링 (미피 그림책 카드 스타일)
 function renderBoard() {
   const container = document.getElementById("cards-grid");
   if (!container) return;
@@ -369,21 +374,21 @@ function renderBoard() {
     const studentHTML = student
       ? `
         <div class="student-assigned">
-          <span class="student-tag-label">ASSIGNEE</span>
+          <span class="student-tag-label">담당 친구:</span>
           <span class="student-name">${student}</span>
         </div>
       `
       : `
         <div class="student-empty">
-          <span>UNASSIGNED</span>
+          <span>🎲 배정 대기 중</span>
         </div>
       `;
 
     card.innerHTML = `
       <div class="card-top">
-        <span class="role-num-badge">ITEM ${String(index + 1).padStart(2, '0')}</span>
+        <span class="role-num-badge">역할 ${index + 1}</span>
         <button class="card-swap-btn" title="학생 직접 지정/변경" onclick="window.promptChangeStudent(${role.id})">
-          EDIT
+          ✏️ 수정
         </button>
       </div>
       <div class="role-visual">
@@ -423,11 +428,11 @@ window.promptChangeStudent = function(roleId) {
     saveCurrentState();
     renderBoard();
     updatePrintView();
-    showToast(`UPDATED : '${role.title}' 담당 학생이 변경되었습니다.`, "info");
+    showToast(`'${role.title}' 담당 학생이 변경되었습니다.`, "info");
   }
 };
 
-// 10. A4 에디토리얼 인쇄 화면 업데이트
+// 10. A4 교실 게시판 인쇄 화면 업데이트
 function updatePrintView() {
   const printGrid = document.getElementById("print-grid");
   const printClassTitle = document.getElementById("print-class-title");
@@ -459,14 +464,14 @@ function updatePrintView() {
             <span>${role.emoji}</span>
             <span>${role.title}</span>
           </div>
-          <span class="print-role-num">ITEM ${String(idx + 1).padStart(2, '0')}</span>
+          <span class="print-role-num">역할 ${idx + 1}</span>
         </div>
         <div class="print-role-desc">${role.desc}</div>
       </div>
       <div class="print-assigned-box">
-        <span class="print-student-label">ASSIGNEE:</span>
+        <span class="print-student-label">담당 학생:</span>
         <span class="print-student-name">${assignedStudent}</span>
-        <span class="print-sign-box">CHECK ( &nbsp;&nbsp;&nbsp;&nbsp; )</span>
+        <span class="print-sign-box">확인 ( &nbsp;&nbsp;&nbsp;&nbsp; )</span>
       </div>
     `;
     printGrid.appendChild(printCard);
@@ -485,11 +490,11 @@ async function handleSheetLoad() {
 
   if (!url) {
     openModal("modal-sheet");
-    showToast("Google Apps Script 웹 앱 URL을 먼저 입력해 주세요.", "info");
+    showToast("구글 앱스 스크립트 웹 앱 주소를 먼저 입력해 주세요.", "info");
     return;
   }
 
-  showToast("CONNECTING : 구글 스프레드시트에서 데이터를 로드 중입니다...", "info");
+  showToast("🔄 구글 스프레드시트에서 데이터를 불러오는 중...", "info");
 
   try {
     const response = await fetch(`${url}?action=getData`, {
@@ -517,10 +522,10 @@ async function handleSheetLoad() {
     saveCurrentState();
     renderBoard();
     updatePrintView();
-    showToast("SUCCESS : 구글 시트 데이터를 성공적으로 동기화했습니다.", "success");
+    showToast("✅ 구글 스프레드시트 데이터를 성공적으로 불러왔습니다!", "success");
   } catch (err) {
     console.error("스프레드시트 로드 오류:", err);
-    showToast("⚠️ 시트 불러오기 실패: Apps Script URL 및 배포 권한을 확인해 주세요.", "warning");
+    showToast("⚠️ 시트 불러오기 실패: 웹 앱 주소 및 배포 권한을 확인해 주세요.", "warning");
   }
 }
 
@@ -529,11 +534,11 @@ async function handleSheetSave() {
 
   if (!url) {
     openModal("modal-sheet");
-    showToast("Google Apps Script 웹 앱 URL을 먼저 입력해 주세요.", "info");
+    showToast("구글 앱스 스크립트 웹 앱 주소를 먼저 입력해 주세요.", "info");
     return;
   }
 
-  showToast("SAVING : 구글 스프레드시트에 배정 결과를 저장하는 중...", "info");
+  showToast("💾 구글 스프레드시트에 배정 결과를 저장하는 중...", "info");
 
   const payload = {
     action: "saveAssignments",
@@ -560,9 +565,9 @@ async function handleSheetSave() {
     });
     const result = await response.json();
     if (result.status === "success" || result.success) {
-      showToast("SUCCESS : 구글 시트에 안전하게 저장되었습니다.", "success");
+      showToast("✅ 구글 스프레드시트에 안전하게 저장되었습니다!", "success");
     } else {
-      showToast("SUCCESS : 시트로 데이터가 전송되었습니다.", "success");
+      showToast("✅ 시트로 데이터가 전송되었습니다.", "success");
     }
   } catch (err) {
     console.error("스프레드시트 저장 오류:", err);
@@ -615,7 +620,7 @@ function saveManagementData() {
       .map(s => s.trim())
       .filter(s => s.length > 0);
 
-    const themePool = ["theme-pink", "theme-mint", "theme-blue", "theme-yellow", "theme-lavender", "theme-orange"];
+    const themePool = ["theme-mint", "theme-blue", "theme-yellow", "theme-pink", "theme-lavender", "theme-orange"];
 
     if (roleLines.length > 0) {
       state.roles = roleLines.map((line, idx) => {
@@ -639,7 +644,7 @@ function saveManagementData() {
   renderBoard();
   updatePrintView();
   closeModal("modal-manage");
-  showToast("APPLIED : 학생 및 역할 데이터가 갱신되었습니다.", "success");
+  showToast("명단과 역할 목록이 갱신되었습니다.", "success");
 }
 
 function resetToDefault() {
@@ -651,7 +656,7 @@ function resetToDefault() {
     renderBoard();
     updatePrintView();
     setupManagementModal();
-    showToast("DEFAULT RESET : 초기 데이터로 복원되었습니다.", "info");
+    showToast("기본 데이터로 복원되었습니다.", "info");
   }
 }
 
@@ -670,7 +675,7 @@ function exportToCSV() {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-  showToast("EXPORTED : CSV 파일이 다운로드되었습니다.", "success");
+  showToast("CSV 파일로 저장되었습니다.", "success");
 }
 
 // 15. 초기화 및 이벤트 등록
@@ -697,12 +702,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const btnSound = document.getElementById("btn-toggle-sound");
   if (btnSound) {
-    btnSound.innerHTML = state.soundEnabled ? "🔊 SOUND ON" : "🔇 SOUND OFF";
+    btnSound.innerHTML = state.soundEnabled ? "🔊 소리 켜짐" : "🔇 소리 꺼짐";
     btnSound.addEventListener("click", () => {
       state.soundEnabled = !state.soundEnabled;
-      btnSound.innerHTML = state.soundEnabled ? "🔊 SOUND ON" : "🔇 SOUND OFF";
+      btnSound.innerHTML = state.soundEnabled ? "🔊 소리 켜짐" : "🔇 소리 꺼짐";
       saveCurrentState();
-      showToast(state.soundEnabled ? "SOUND ENABLED" : "SOUND MUTED", "info");
+      showToast(state.soundEnabled ? "효과음이 켜졌습니다." : "효과음이 꺼졌습니다.", "info");
     });
   }
 
@@ -721,7 +726,7 @@ document.addEventListener("DOMContentLoaded", () => {
       saveCurrentState();
       renderBoard();
       updatePrintView();
-      showToast("RESET : 배정 상태가 초기화되었습니다.", "info");
+      showToast("배정 상태가 초기화되었습니다.", "info");
     }
   });
 
