@@ -246,11 +246,26 @@
             📝 구글 앱스 스크립트 기본 코드 보기 (클릭하여 펼치기)
           </summary>
           <div class="code-box">
+// [구글 스프레드시트 > 확장 프로그램 > Apps Script에 붙여넣기]
 function doGet(e) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   var data = sheet.getDataRange().getValues();
-  return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
-    .setMimeType(ContentService.MimeType.JSON);
+  
+  // 첫 번째 열(A열)에서 학생 이름 추출 (첫 줄이 '이름' 등 제목이면 자동 제외)
+  var students = [];
+  for (var i = 0; i < data.length; i++) {
+    var cell = data[i][0]; // A열
+    if (cell !== "" && cell !== null && cell !== undefined) {
+      var name = String(cell).trim();
+      if (i === 0 && (name === "이름" || name === "학생명" || name === "성명" || name === "name")) continue;
+      students.push(name);
+    }
+  }
+  
+  return ContentService.createTextOutput(JSON.stringify({
+    status: "success",
+    students: students
+  })).setMimeType(ContentService.MimeType.JSON);
 }
 
 function doPost(e) {
