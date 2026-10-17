@@ -1,7 +1,7 @@
 /**
  * ========================================================
- * 🏫 학급 1인 1역할 배정 도우미 - script.js
- * 역할 무작위 매칭, A4 인쇄, 구글 스프레드시트 연동 준비 로직
+ * 🏢 W.CLASSROOM - script.js
+ * W Concept 에디토리얼 스타일 학급 1인 1역할 배정 및 관리 로직
  * ========================================================
  */
 
@@ -99,7 +99,7 @@ const DEFAULT_ROLES = [
   }
 ];
 
-// 2. 전역 상태 (Local Storage와 동기화)
+// 2. 전역 상태
 let state = {
   className: "3학년 2반",
   students: [...DEFAULT_STUDENTS],
@@ -110,7 +110,7 @@ let state = {
   sheetWebAppUrl: ""
 };
 
-// 3. Web Audio API 사운드 시스템 (외부 파일 없이 순수 브라우저 합성음)
+// 3. Web Audio API 사운드 (미니멀하고 세련된 차임 & 클릭 사운드)
 const audioCtx = (function() {
   const AudioContext = window.AudioContext || window.webkitAudioContext;
   return AudioContext ? new AudioContext() : null;
@@ -129,35 +129,35 @@ function playSound(type) {
     gain.connect(audioCtx.destination);
 
     if (type === 'pop') {
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(440, now);
-      osc.frequency.exponentialRampToValueAtTime(880, now + 0.08);
-      gain.gain.setValueAtTime(0.15, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(520, now);
+      osc.frequency.exponentialRampToValueAtTime(840, now + 0.05);
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
       osc.start(now);
-      osc.stop(now + 0.08);
+      osc.stop(now + 0.05);
     } else if (type === 'fanfare') {
-      const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+      const notes = [440, 554.37, 659.25, 880]; // A4, C#5, E5, A5 (세련된 메이저 코드)
       notes.forEach((freq, idx) => {
         const o = audioCtx.createOscillator();
         const g = audioCtx.createGain();
-        o.type = 'triangle';
+        o.type = 'sine';
         o.frequency.value = freq;
         o.connect(g);
         g.connect(audioCtx.destination);
-        const start = now + idx * 0.1;
-        g.gain.setValueAtTime(0.18, start);
-        g.gain.exponentialRampToValueAtTime(0.001, start + 0.35);
+        const start = now + idx * 0.09;
+        g.gain.setValueAtTime(0.12, start);
+        g.gain.exponentialRampToValueAtTime(0.001, start + 0.4);
         o.start(start);
-        o.stop(start + 0.35);
+        o.stop(start + 0.4);
       });
     }
   } catch (err) {
-    console.warn("오디오 재생 오류:", err);
+    console.warn("Audio error:", err);
   }
 }
 
-// 4. 로컬 스토리지 저장 및 불러오기
+// 4. 로컬 스토리지 동기화
 function loadSavedState() {
   try {
     const saved = localStorage.getItem("class_roles_state");
@@ -183,7 +183,7 @@ function saveCurrentState() {
   }
 }
 
-// 5. 토스트 알림 표시
+// 5. 토스트 알림
 function showToast(message, type = "info") {
   const container = document.getElementById("toast-container");
   if (!container) return;
@@ -197,10 +197,10 @@ function showToast(message, type = "info") {
     toast.style.transform = "translateY(10px)";
     toast.style.transition = "all 0.3s";
     setTimeout(() => toast.remove(), 300);
-  }, 2800);
+  }, 2600);
 }
 
-// 6. Confetti 축하 효과 (순수 Canvas 구현)
+// 6. 에디토리얼 골드/블랙/레몬 콘페티 축하 효과
 function launchConfetti() {
   const canvas = document.getElementById("confetti-canvas");
   if (!canvas) return;
@@ -209,19 +209,20 @@ function launchConfetti() {
   canvas.height = window.innerHeight;
 
   const pieces = [];
-  const colors = ['#ff8fab', '#a7e8bd', '#a2d2ff', '#f6d860', '#d8b4fe', '#ffb703', '#fb8500'];
+  // W Concept & Pantone Lemon Icing 컬러 팔레트 (블랙, 골드, 샴페인, 레몬아이싱)
+  const colors = ['#111111', '#F6EBC8', '#B8860B', '#D4AF37', '#E6D7AD', '#333333', '#9C7D38'];
 
-  for (let i = 0; i < 90; i++) {
+  for (let i = 0; i < 80; i++) {
     pieces.push({
       x: canvas.width / 2,
       y: canvas.height / 2,
-      vx: (Math.random() - 0.5) * 16,
-      vy: (Math.random() - 0.7) * 16,
-      size: Math.random() * 8 + 6,
+      vx: (Math.random() - 0.5) * 15,
+      vy: (Math.random() - 0.7) * 15,
+      size: Math.random() * 7 + 4,
       color: colors[Math.floor(Math.random() * colors.length)],
       rotation: Math.random() * 360,
-      rotSpeed: (Math.random() - 0.5) * 10,
-      gravity: 0.28,
+      rotSpeed: (Math.random() - 0.5) * 8,
+      gravity: 0.25,
       opacity: 1
     });
   }
@@ -235,7 +236,7 @@ function launchConfetti() {
       p.y += p.vy;
       p.vy += p.gravity;
       p.rotation += p.rotSpeed;
-      p.opacity -= 0.009;
+      p.opacity -= 0.01;
 
       if (p.opacity > 0) {
         alive = true;
@@ -244,7 +245,7 @@ function launchConfetti() {
         ctx.rotate((p.rotation * Math.PI) / 180);
         ctx.fillStyle = p.color;
         ctx.globalAlpha = Math.max(0, p.opacity);
-        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.7);
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.65);
         ctx.restore();
       }
     });
@@ -260,7 +261,7 @@ function launchConfetti() {
   update();
 }
 
-// 7. Fisher-Yates 셔플 알고리즘
+// 7. Fisher-Yates 셔플
 function shuffleArray(array) {
   const arr = [...array];
   for (let i = arr.length - 1; i > 0; i--) {
@@ -270,16 +271,16 @@ function shuffleArray(array) {
   return arr;
 }
 
-// 8. 🎲 무작위 역할 배정 실행
+// 8. 🎲 무작위 역할 배정
 function assignRoles(isDramatic = true) {
   if (state.isShuffling) return;
 
   if (state.students.length === 0) {
-    showToast("⚠️ 배정할 학생 명단이 비어 있습니다!", "warning");
+    showToast("⚠️ 배정할 학생 명단이 없습니다.", "warning");
     return;
   }
   if (state.roles.length === 0) {
-    showToast("⚠️ 배정할 역할 목록이 비어 있습니다!", "warning");
+    showToast("⚠️ 배정할 역할 목록이 없습니다.", "warning");
     return;
   }
 
@@ -291,7 +292,6 @@ function assignRoles(isDramatic = true) {
   const cardElements = document.querySelectorAll(".role-card");
 
   if (!isDramatic) {
-    // 즉시 배정
     state.roles.forEach((role, idx) => {
       state.assignments[role.id] = shuffledStudents[idx % shuffledStudents.length] || "미배정";
     });
@@ -299,7 +299,6 @@ function assignRoles(isDramatic = true) {
     return;
   }
 
-  // 두구두구 셔플 애니메이션
   cardElements.forEach(card => card.classList.add("card-shuffling"));
 
   let steps = 0;
@@ -308,7 +307,6 @@ function assignRoles(isDramatic = true) {
     steps++;
     playSound('pop');
 
-    // 임의의 이름들로 빠르게 스크롤되는 연출
     cardElements.forEach(card => {
       const studentNameEl = card.querySelector(".student-name");
       if (studentNameEl) {
@@ -319,7 +317,6 @@ function assignRoles(isDramatic = true) {
 
     if (steps >= maxSteps) {
       clearInterval(interval);
-      // 최종 확정 배정 반영
       state.roles.forEach((role, idx) => {
         state.assignments[role.id] = shuffledStudents[idx % shuffledStudents.length] || "미배정";
       });
@@ -338,9 +335,8 @@ function finalizeAssignment() {
   saveCurrentState();
   playSound('fanfare');
   launchConfetti();
-  showToast("🎉 모든 역할이 공정하게 배정되었습니다!", "success");
+  showToast("CURATION COMPLETED : 배정이 완료되었습니다.", "success");
 
-  // 카드 등장 효과
   const cards = document.querySelectorAll(".role-card");
   cards.forEach(card => {
     card.classList.remove("card-shuffling");
@@ -348,7 +344,7 @@ function finalizeAssignment() {
   });
 }
 
-// 9. 카드 그리드 화면 렌더링
+// 9. 카드 그리드 렌더링 (W Concept Lookbook Card Style)
 function renderBoard() {
   const container = document.getElementById("cards-grid");
   if (!container) return;
@@ -373,21 +369,21 @@ function renderBoard() {
     const studentHTML = student
       ? `
         <div class="student-assigned">
-          <div class="student-avatar">${student.charAt(0)}</div>
+          <span class="student-tag-label">ASSIGNEE</span>
           <span class="student-name">${student}</span>
         </div>
       `
       : `
         <div class="student-empty">
-          <span>🎲 배정 대기 중</span>
+          <span>UNASSIGNED</span>
         </div>
       `;
 
     card.innerHTML = `
       <div class="card-top">
-        <span class="role-num-badge">No. ${index + 1}</span>
+        <span class="role-num-badge">ITEM ${String(index + 1).padStart(2, '0')}</span>
         <button class="card-swap-btn" title="학생 직접 지정/변경" onclick="window.promptChangeStudent(${role.id})">
-          ✏️ 변경
+          EDIT
         </button>
       </div>
       <div class="role-visual">
@@ -408,7 +404,7 @@ function renderBoard() {
   });
 }
 
-// 특정 카드의 학생 직접 변경/지정
+// 개별 역할 담당 학생 직접 변경
 window.promptChangeStudent = function(roleId) {
   const role = state.roles.find(r => r.id === roleId);
   if (!role) return;
@@ -427,11 +423,11 @@ window.promptChangeStudent = function(roleId) {
     saveCurrentState();
     renderBoard();
     updatePrintView();
-    showToast(`'${role.title}' 담당자가 변경되었습니다.`, "info");
+    showToast(`UPDATED : '${role.title}' 담당 학생이 변경되었습니다.`, "info");
   }
 };
 
-// 10. 교실 게시판 부착용 A4 인쇄 화면 업데이트
+// 10. A4 에디토리얼 인쇄 화면 업데이트
 function updatePrintView() {
   const printGrid = document.getElementById("print-grid");
   const printClassTitle = document.getElementById("print-class-title");
@@ -463,38 +459,37 @@ function updatePrintView() {
             <span>${role.emoji}</span>
             <span>${role.title}</span>
           </div>
-          <span class="print-role-num">역할 ${idx + 1}</span>
+          <span class="print-role-num">ITEM ${String(idx + 1).padStart(2, '0')}</span>
         </div>
         <div class="print-role-desc">${role.desc}</div>
       </div>
       <div class="print-assigned-box">
-        <span class="print-student-label">담당 학생:</span>
+        <span class="print-student-label">ASSIGNEE:</span>
         <span class="print-student-name">${assignedStudent}</span>
-        <span class="print-sign-box">확인 ( &nbsp;&nbsp;&nbsp;&nbsp; )</span>
+        <span class="print-sign-box">CHECK ( &nbsp;&nbsp;&nbsp;&nbsp; )</span>
       </div>
     `;
     printGrid.appendChild(printCard);
   });
 }
 
-// 11. 🖨️ 인쇄 기능 호출
+// 11. 인쇄 호출
 function triggerPrint() {
   updatePrintView();
   window.print();
 }
 
-// 12. 🔄 구글 스프레드시트(Apps Script) 연동 핸들러
+// 12. 구글 스프레드시트(Apps Script) 연동
 async function handleSheetLoad() {
   const url = state.sheetWebAppUrl || localStorage.getItem("sheet_webapp_url");
 
   if (!url) {
-    // URL이 설정되지 않은 경우 모달을 열어 안내
     openModal("modal-sheet");
-    showToast("연동할 구글 스프레드시트 Apps Script 웹 앱 URL을 먼저 입력해 주세요.", "info");
+    showToast("Google Apps Script 웹 앱 URL을 먼저 입력해 주세요.", "info");
     return;
   }
 
-  showToast("🔄 구글 스프레드시트에서 데이터를 불러오는 중...", "info");
+  showToast("CONNECTING : 구글 스프레드시트에서 데이터를 로드 중입니다...", "info");
 
   try {
     const response = await fetch(`${url}?action=getData`, {
@@ -522,10 +517,10 @@ async function handleSheetLoad() {
     saveCurrentState();
     renderBoard();
     updatePrintView();
-    showToast("✅ 구글 스프레드시트 데이터를 성공적으로 불러왔습니다!", "success");
+    showToast("SUCCESS : 구글 시트 데이터를 성공적으로 동기화했습니다.", "success");
   } catch (err) {
     console.error("스프레드시트 로드 오류:", err);
-    showToast("⚠️ 시트 불러오기 실패: Apps Script URL 및 CORS 설정을 확인해 주세요.", "warning");
+    showToast("⚠️ 시트 불러오기 실패: Apps Script URL 및 배포 권한을 확인해 주세요.", "warning");
   }
 }
 
@@ -534,11 +529,11 @@ async function handleSheetSave() {
 
   if (!url) {
     openModal("modal-sheet");
-    showToast("저장할 구글 스프레드시트 Apps Script 웹 앱 URL을 먼저 입력해 주세요.", "info");
+    showToast("Google Apps Script 웹 앱 URL을 먼저 입력해 주세요.", "info");
     return;
   }
 
-  showToast("💾 구글 스프레드시트에 결과 저장 중...", "info");
+  showToast("SAVING : 구글 스프레드시트에 배정 결과를 저장하는 중...", "info");
 
   const payload = {
     action: "saveAssignments",
@@ -559,23 +554,23 @@ async function handleSheetSave() {
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        "Content-Type": "text/plain;charset=utf-8" // GAS redirection compatibility
+        "Content-Type": "text/plain;charset=utf-8"
       },
       body: JSON.stringify(payload)
     });
     const result = await response.json();
     if (result.status === "success" || result.success) {
-      showToast("✅ 구글 스프레드시트에 배정 결과가 저장되었습니다!", "success");
+      showToast("SUCCESS : 구글 시트에 안전하게 저장되었습니다.", "success");
     } else {
-      showToast("✅ 시트에 데이터가 전송되었습니다.", "success");
+      showToast("SUCCESS : 시트로 데이터가 전송되었습니다.", "success");
     }
   } catch (err) {
     console.error("스프레드시트 저장 오류:", err);
-    showToast("⚠️ 시트 저장 요청이 전송되었습니다. (배포 웹앱 설정 확인 요망)", "info");
+    showToast("⚠️ 저장 요청이 전송되었습니다. (배포 웹앱 설정 확인 요망)", "info");
   }
 }
 
-// 13. 모달 제어 함수
+// 13. 모달 제어
 function openModal(modalId) {
   const modal = document.getElementById(modalId);
   if (modal) modal.classList.add("active");
@@ -586,7 +581,7 @@ function closeModal(modalId) {
   if (modal) modal.classList.remove("active");
 }
 
-// 14. 학생 & 역할 관리 모달 채우기 및 저장
+// 14. 학생 & 역할 관리 모달
 function setupManagementModal() {
   const textareaStudents = document.getElementById("manage-students-input");
   const textareaRoles = document.getElementById("manage-roles-input");
@@ -639,18 +634,16 @@ function saveManagementData() {
     }
   }
 
-  // 기존 배정 초기화 후 다시 맞추기
   state.assignments = {};
   saveCurrentState();
   renderBoard();
   updatePrintView();
   closeModal("modal-manage");
-  showToast("명단과 역할 목록이 갱신되었습니다.", "success");
+  showToast("APPLIED : 학생 및 역할 데이터가 갱신되었습니다.", "success");
 }
 
-// 15. 초기 데이터로 리셋
 function resetToDefault() {
-  if (confirm("정말 기본 예시 데이터(12명/12역할)로 초기화하시겠습니까?")) {
+  if (confirm("기본 예시 데이터(12명/12역할)로 초기화하시겠습니까?")) {
     state.students = [...DEFAULT_STUDENTS];
     state.roles = JSON.parse(JSON.stringify(DEFAULT_ROLES));
     state.assignments = {};
@@ -658,11 +651,10 @@ function resetToDefault() {
     renderBoard();
     updatePrintView();
     setupManagementModal();
-    showToast("기본 예시 데이터로 초기화되었습니다.", "info");
+    showToast("DEFAULT RESET : 초기 데이터로 복원되었습니다.", "info");
   }
 }
 
-// 16. CSV/JSON 다운로드 백업 기능 (스프레드시트 대용 및 백업용)
 function exportToCSV() {
   let csvContent = "\uFEFF번호,역할명,담당학생,역할설명\n";
   state.roles.forEach((role, idx) => {
@@ -678,14 +670,13 @@ function exportToCSV() {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-  showToast("CSV 파일로 저장되었습니다.", "success");
+  showToast("EXPORTED : CSV 파일이 다운로드되었습니다.", "success");
 }
 
-// 17. 초기화 및 이벤트 리스너 바인딩
+// 15. 초기화 및 이벤트 등록
 document.addEventListener("DOMContentLoaded", () => {
   loadSavedState();
 
-  // 학급명 바인딩
   const classInput = document.getElementById("class-name-input");
   if (classInput) {
     classInput.value = state.className;
@@ -696,7 +687,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 상단 툴바 버튼
   document.getElementById("btn-sheet-load")?.addEventListener("click", handleSheetLoad);
   document.getElementById("btn-sheet-save")?.addEventListener("click", handleSheetSave);
   document.getElementById("btn-print")?.addEventListener("click", triggerPrint);
@@ -705,19 +695,17 @@ document.addEventListener("DOMContentLoaded", () => {
     openModal("modal-manage");
   });
 
-  // 사운드 토글
   const btnSound = document.getElementById("btn-toggle-sound");
   if (btnSound) {
-    btnSound.innerHTML = state.soundEnabled ? "🔊 소리 켜짐" : "🔇 소리 꺼짐";
+    btnSound.innerHTML = state.soundEnabled ? "🔊 SOUND ON" : "🔇 SOUND OFF";
     btnSound.addEventListener("click", () => {
       state.soundEnabled = !state.soundEnabled;
-      btnSound.innerHTML = state.soundEnabled ? "🔊 소리 켜짐" : "🔇 소리 꺼짐";
+      btnSound.innerHTML = state.soundEnabled ? "🔊 SOUND ON" : "🔇 SOUND OFF";
       saveCurrentState();
-      showToast(state.soundEnabled ? "효과음이 켜졌습니다." : "효과음이 꺼졌습니다.", "info");
+      showToast(state.soundEnabled ? "SOUND ENABLED" : "SOUND MUTED", "info");
     });
   }
 
-  // 메인 액션 버튼
   document.getElementById("btn-assign")?.addEventListener("click", () => {
     const isDramatic = document.getElementById("chk-dramatic")?.checked ?? true;
     assignRoles(isDramatic);
@@ -728,16 +716,15 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.getElementById("btn-reset")?.addEventListener("click", () => {
-    if (confirm("배정된 학생을 모두 지우고 초기화할까요?")) {
+    if (confirm("현재 배정 상태를 모두 초기화할까요?")) {
       state.assignments = {};
       saveCurrentState();
       renderBoard();
       updatePrintView();
-      showToast("배정 상태가 초기화되었습니다.", "info");
+      showToast("RESET : 배정 상태가 초기화되었습니다.", "info");
     }
   });
 
-  // 모달 닫기 버튼들
   document.querySelectorAll("[data-close-modal]").forEach(btn => {
     btn.addEventListener("click", (e) => {
       const modalId = e.currentTarget.getAttribute("data-close-modal");
@@ -745,7 +732,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 모달 바깥 배경 클릭시 닫기
   document.querySelectorAll(".modal-overlay").forEach(overlay => {
     overlay.addEventListener("click", (e) => {
       if (e.target === overlay) {
@@ -754,11 +740,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 명단 관리 모달 저장 & 리셋 버튼
   document.getElementById("btn-save-management")?.addEventListener("click", saveManagementData);
   document.getElementById("btn-reset-default")?.addEventListener("click", resetToDefault);
 
-  // 스프레드시트 설정 모달 바인딩
   const sheetUrlInput = document.getElementById("sheet-url-input");
   if (sheetUrlInput) {
     sheetUrlInput.value = state.sheetWebAppUrl;
@@ -770,7 +754,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("btn-export-csv")?.addEventListener("click", exportToCSV);
 
-  // 탭 전환 핸들러
   document.querySelectorAll(".tab-btn").forEach(tab => {
     tab.addEventListener("click", (e) => {
       const targetPaneId = e.target.getAttribute("data-tab");
@@ -786,7 +769,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 화면 첫 렌더링
   renderBoard();
   updatePrintView();
 });

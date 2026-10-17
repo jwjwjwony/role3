@@ -1,53 +1,37 @@
 /* ========================================================
-   🏫 학급 1인 1역할 배정 도우미 - style.css
-   초등학생 눈높이에 맞춘 따뜻하고 귀여운 파스텔톤 스타일시트
+   🏢 W CONCEPT STYLE CLASSROOM ROLE ASSIGNMENT
+   컬러: PANTONE Lemon Icing (#F6EBC8) & W Concept 모던 에디토리얼
    ======================================================== */
 
-/* 웹폰트 불러오기: Jua (귀여운 타이틀), Gaegu (손글씨 느낌), Noto Sans KR (가독성 본문) */
-@import url('https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap');
+/* 에디토리얼 & 모던 폰트 불러오기 */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Montserrat:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap');
 
 :root {
-  /* 파스텔 컬러 팔레트 */
-  --bg-primary: #fcf9f2;
-  --bg-dots: rgba(255, 183, 197, 0.18);
-  --text-main: #374151;
-  --text-muted: #6b7280;
-  --text-dark: #1f2937;
+  /* 팬톤 레몬 아이싱 (Pantone 11-0515 TCX Lemon Icing) */
+  --pantone-lemon-icing: #F6EBC8;
+  --lemon-icing-light: #FBF5E4;
+  --lemon-icing-dark: #E6D7AD;
+  --lemon-icing-border: #DECFA6;
 
-  /* 파스텔 테마 색상 */
-  --pastel-yellow: #fff7d6;
-  --pastel-yellow-border: #f6d860;
-  --pastel-yellow-accent: #d97706;
+  /* W Concept 시그니처 흑백 & 모노톤 팔레트 */
+  --w-black: #111111;
+  --w-charcoal: #222222;
+  --w-dark-gray: #444444;
+  --w-gray: #777777;
+  --w-light-gray: #E5E5E5;
+  --w-white: #FFFFFF;
+  --w-point-gold: #9C7D38;
+  --w-point-red: #D90429;
 
-  --pastel-pink: #ffe6eb;
-  --pastel-pink-border: #ffb3c1;
-  --pastel-pink-accent: #e63946;
-
-  --pastel-mint: #e8f7ee;
-  --pastel-mint-border: #a7e8bd;
-  --pastel-mint-accent: #2d6a4f;
-
-  --pastel-blue: #e8f4fd;
-  --pastel-blue-border: #a2d2ff;
-  --pastel-blue-accent: #1d3557;
-
-  --pastel-lavender: #f3e8ff;
-  --pastel-lavender-border: #d8b4fe;
-  --pastel-lavender-accent: #7e22ce;
-
-  --pastel-orange: #fff1e6;
-  --pastel-orange-border: #fed1b2;
-  --pastel-orange-accent: #ea580c;
-
-  /* UI 공통 변수 */
-  --card-radius: 20px;
-  --btn-radius: 9999px;
-  --shadow-soft: 0 10px 25px -5px rgba(220, 180, 190, 0.25), 0 8px 10px -6px rgba(220, 180, 190, 0.15);
-  --shadow-card: 0 8px 20px rgba(180, 160, 180, 0.12);
-  --shadow-hover: 0 14px 28px rgba(180, 160, 180, 0.22);
+  /* W Concept 에디토리얼 라인 & 섀도우 */
+  --border-main: 1px solid #111111;
+  --border-light: 1px solid rgba(17, 17, 17, 0.12);
+  --border-medium: 1px solid #D8C79D;
+  --shadow-editorial: 0 10px 30px rgba(17, 17, 17, 0.06);
+  --shadow-hover: 0 16px 36px rgba(17, 17, 17, 0.12);
 }
 
-/* 기본 리셋 및 폰트 */
+/* 기본 리셋 */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -56,172 +40,182 @@
 }
 
 body {
-  font-family: 'Noto Sans KR', sans-serif;
-  background-color: var(--bg-primary);
-  background-image: radial-gradient(var(--bg-dots) 1.5px, transparent 1.5px);
-  background-size: 24px 24px;
-  color: var(--text-main);
+  font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+  background-color: var(--pantone-lemon-icing);
+  color: var(--w-black);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   position: relative;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* 전체 래퍼 */
+/* W Concept 스타일 상단 얇은 공지 바 */
+.w-top-notice {
+  background: var(--w-black);
+  color: #F6EBC8;
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  font-weight: 500;
+  text-align: center;
+  padding: 8px 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.w-top-notice span.bullet {
+  opacity: 0.5;
+}
+
+/* 전체 메인 래퍼 */
 .app-container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1320px;
   margin: 0 auto;
-  padding: 24px 20px 60px;
+  padding: 24px 24px 80px;
 }
 
 /* ========================================================
-   1. 헤더 & 상단 도구 모음 (Header & Toolbar)
+   1. W CONCEPT 스타일 헤더 & 네비게이션
    ======================================================== */
 .app-header {
-  background: #ffffff;
-  border-radius: 28px;
-  padding: 24px 28px;
+  background: var(--w-white);
+  border: 1px solid var(--w-black);
   margin-bottom: 24px;
-  box-shadow: var(--shadow-soft);
-  border: 3px solid #ffccd5;
+  box-shadow: var(--shadow-editorial);
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  position: relative;
-  overflow: hidden;
+  flex-direction: column;
 }
 
-.app-header::before {
-  content: "✏️ 🎨 📐 🍎 🎒 ⭐ 🌈";
-  position: absolute;
-  top: 4px;
-  right: 20px;
-  font-size: 14px;
-  opacity: 0.35;
-  letter-spacing: 6px;
-  pointer-events: none;
+.header-primary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--w-light-gray);
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .brand-section {
   display: flex;
-  align-items: center;
-  gap: 16px;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.brand-icon {
-  font-size: 44px;
-  width: 68px;
-  height: 68px;
-  background: #fff3bf;
-  border-radius: 22px;
+.brand-logo-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.brand-logo {
+  font-family: 'Cinzel', serif;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: var(--w-black);
+  text-decoration: none;
+  line-height: 1;
+}
+
+.brand-submark {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: var(--w-gray);
+  text-transform: uppercase;
+  border-left: 1px solid #ccc;
+  padding-left: 12px;
+}
+
+.brand-desc {
+  font-size: 12px;
+  color: var(--w-gray);
+  letter-spacing: 0.5px;
+  font-weight: 400;
+}
+
+/* 툴바 & 학급 정보 바 */
+.header-actions-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  border: 3px solid #ffd43b;
-  box-shadow: 0 4px 10px rgba(255, 212, 59, 0.4);
-  animation: floatIcon 3s ease-in-out infinite;
-}
-
-@keyframes floatIcon {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-}
-
-.brand-text h1 {
-  font-family: 'Jua', sans-serif;
-  font-size: 28px;
-  color: #2b2d42;
-  letter-spacing: -0.5px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.brand-badge {
-  font-family: 'Gaegu', cursive;
-  font-size: 16px;
-  background: #ff8fab;
-  color: #ffffff;
-  padding: 3px 12px;
-  border-radius: 20px;
-  font-weight: 700;
-  vertical-align: middle;
-}
-
-.brand-text p {
-  color: var(--text-muted);
-  font-size: 14px;
-  margin-top: 4px;
-}
-
-/* 학급 정보 및 상단 액션 버튼 그룹 */
-.header-actions {
-  display: flex;
+  justify-content: space-between;
+  padding: 12px 32px;
+  background: #FCFCFC;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
+  gap: 14px;
 }
 
 .class-info-badge {
   display: flex;
   align-items: center;
-  background: var(--pastel-yellow);
-  border: 2px dashed var(--pastel-yellow-border);
-  border-radius: 16px;
-  padding: 6px 14px;
-  gap: 6px;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--w-dark-gray);
 }
 
 .class-info-badge label {
-  font-family: 'Jua', sans-serif;
-  font-size: 14px;
-  color: var(--pastel-yellow-accent);
+  font-family: 'Montserrat', sans-serif;
+  color: var(--w-black);
 }
 
 .class-info-input {
-  border: 1px solid #ffd43b;
-  border-radius: 10px;
-  padding: 4px 10px;
-  font-family: 'Jua', sans-serif;
-  font-size: 16px;
-  color: #2b2d42;
-  width: 110px;
-  background: #ffffff;
-  outline: none;
+  border: 1px solid #111;
+  background: var(--w-white);
+  padding: 6px 12px;
+  font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--w-black);
+  width: 120px;
   text-align: center;
+  outline: none;
   transition: all 0.2s;
 }
 
 .class-info-input:focus {
-  border-color: #f59e0b;
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+  background: var(--pantone-lemon-icing);
+  border-color: var(--w-black);
 }
 
-/* 툴바 버튼 공통 */
+/* W Concept 미니멀 버튼 스타일 */
+.header-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .btn-tool {
-  font-family: 'Jua', sans-serif;
-  font-size: 14px;
+  font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  background: var(--w-white);
+  color: var(--w-black);
+  border: 1px solid #222222;
+  cursor: pointer;
+  transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 16px;
-  border-radius: 16px;
-  border: 2px solid transparent;
-  cursor: pointer;
-  background: #ffffff;
-  color: var(--text-dark);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  transition: all 0.2s ease;
-  white-space: nowrap;
 }
 
 .btn-tool:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+  background: var(--w-black);
+  color: var(--w-white);
 }
 
 .btn-tool:active {
@@ -229,156 +223,179 @@ body {
 }
 
 .btn-sheet-load {
-  background: #ecfdf5;
-  border-color: #a7f3d0;
+  border-color: #065f46;
   color: #065f46;
+}
+.btn-sheet-load:hover {
+  background: #065f46;
+  color: #fff;
 }
 
 .btn-sheet-save {
-  background: #eff6ff;
-  border-color: #bfdbfe;
-  color: #1e40af;
+  border-color: #1e3a8a;
+  color: #1e3a8a;
 }
-
-.btn-manage {
-  background: #faf5ff;
-  border-color: #e9d5ff;
-  color: #6b21a8;
+.btn-sheet-save:hover {
+  background: #1e3a8a;
+  color: #fff;
 }
 
 .btn-print {
-  background: #fff1f2;
-  border-color: #fecdd3;
-  color: #9f1239;
+  background: var(--w-black);
+  color: var(--w-white);
+  border-color: var(--w-black);
+}
+.btn-print:hover {
+  background: #333333;
 }
 
 .btn-sound {
-  background: #f3f4f6;
-  border-color: #e5e7eb;
-  color: #4b5563;
-  padding: 8px 12px;
+  border-color: #888888;
+  color: #555555;
 }
 
 /* ========================================================
-   2. 메인 컨트롤 히어로 (Hero Assignment Controller)
+   2. W CONCEPT 스타일 히어로 룩북 큐레이션 배너
    ======================================================== */
 .control-hero {
-  background: linear-gradient(135deg, #ffffff 0%, #fffbf2 100%);
-  border-radius: 28px;
-  padding: 28px;
-  margin-bottom: 30px;
-  box-shadow: var(--shadow-soft);
-  border: 3px solid #ffdeeb;
-  text-align: center;
+  background: var(--w-white);
+  border: 1px solid var(--w-black);
+  padding: 40px 36px;
+  margin-bottom: 32px;
+  box-shadow: var(--shadow-editorial);
   position: relative;
 }
 
-.control-header {
-  margin-bottom: 20px;
-}
-
-.control-header h2 {
-  font-family: 'Jua', sans-serif;
-  font-size: 26px;
-  color: #2b2d42;
-  margin-bottom: 8px;
-}
-
-.control-header p {
-  font-size: 15px;
-  color: var(--text-muted);
-}
-
-.stats-bar {
-  display: inline-flex;
-  flex-wrap: wrap;
+.hero-editorial-top {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  gap: 16px;
-  background: #ffffff;
-  padding: 8px 24px;
-  border-radius: 9999px;
-  border: 2px solid #fee2e2;
-  margin-bottom: 22px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  border-bottom: 1px solid #111;
+  padding-bottom: 12px;
+  margin-bottom: 28px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--w-gray);
+}
+
+.hero-main-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.hero-title-group h2 {
+  font-family: 'Cinzel', 'Noto Sans KR', serif;
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--w-black);
+  line-height: 1.25;
+  margin-bottom: 10px;
+}
+
+.hero-title-group p {
+  font-size: 14px;
+  color: var(--w-dark-gray);
+  letter-spacing: 0.3px;
+  line-height: 1.6;
+}
+
+/* 모던 에디토리얼 통계 바 (W Concept 룩북 카운터 스타일) */
+.stats-bar {
+  display: flex;
+  align-items: center;
+  border: 1px solid #111;
+  background: var(--lemon-icing-light);
+  margin-top: 24px;
+  width: fit-content;
 }
 
 .stat-item {
-  font-size: 14px;
-  font-weight: 600;
-  color: #4b5563;
+  padding: 10px 20px;
   display: flex;
-  align-items: center;
-  gap: 6px;
+  flex-direction: column;
+  gap: 2px;
+  border-right: 1px solid #DECFA6;
+}
+
+.stat-item:last-child {
+  border-right: none;
+}
+
+.stat-item .stat-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--w-gray);
 }
 
 .stat-item strong {
-  font-family: 'Jua', sans-serif;
-  font-size: 17px;
-  color: #e11d48;
+  font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--w-black);
 }
 
-/* 액션 메인 버튼 */
+/* W Concept 시그니처 액션 버튼 */
+.action-buttons-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-end;
+}
+
 .action-buttons {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
   align-items: center;
-  gap: 16px;
+  gap: 10px;
 }
 
 .btn-primary-action {
-  font-family: 'Jua', sans-serif;
-  font-size: 22px;
-  color: #ffffff;
-  background: linear-gradient(135deg, #ff6b8b 0%, #ff8e53 100%);
-  border: none;
+  font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #F6EBC8;
+  background: var(--w-black);
+  border: 1px solid var(--w-black);
   padding: 16px 36px;
-  border-radius: var(--btn-radius);
   cursor: pointer;
-  box-shadow: 0 10px 25px rgba(255, 107, 139, 0.45);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-primary-action::after {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  transform: rotate(30deg);
-  animation: shine 4s infinite;
-}
-
-@keyframes shine {
-  0% { transform: translateX(-100%) rotate(30deg); }
-  30%, 100% { transform: translateX(100%) rotate(30deg); }
+  gap: 10px;
+  transition: all 0.25s ease;
 }
 
 .btn-primary-action:hover {
-  transform: translateY(-4px) scale(1.03);
-  box-shadow: 0 14px 30px rgba(255, 107, 139, 0.55);
+  background: #2a2a2a;
+  color: #FFFFFF;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+  transform: translateY(-2px);
 }
 
 .btn-primary-action:active {
-  transform: translateY(2px) scale(0.98);
+  transform: translateY(1px);
 }
 
 .btn-secondary-action {
-  font-family: 'Jua', sans-serif;
-  font-size: 17px;
-  color: #2563eb;
-  background: #dbeafe;
-  border: 2px solid #bfdbfe;
-  padding: 14px 24px;
-  border-radius: var(--btn-radius);
+  font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--w-black);
+  background: var(--w-white);
+  border: 1px solid var(--w-black);
+  padding: 16px 24px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -387,276 +404,273 @@ body {
 }
 
 .btn-secondary-action:hover {
-  background: #bfdbfe;
-  transform: translateY(-2px);
+  background: var(--pantone-lemon-icing);
 }
 
 .btn-reset-action {
-  font-family: 'Jua', sans-serif;
-  font-size: 16px;
-  color: #64748b;
-  background: #f1f5f9;
-  border: 2px solid #e2e8f0;
-  padding: 14px 20px;
-  border-radius: var(--btn-radius);
+  font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--w-gray);
+  background: transparent;
+  border: 1px solid #ccc;
+  padding: 16px 18px;
   cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
   transition: all 0.2s;
 }
 
 .btn-reset-action:hover {
-  background: #e2e8f0;
-  color: #334155;
+  border-color: #111;
+  color: #111;
 }
 
 .animation-switch {
-  margin-top: 18px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
-  color: #6b7280;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--w-gray);
   cursor: pointer;
   user-select: none;
+  margin-top: 4px;
 }
 
 .animation-switch input {
-  accent-color: #ff6b8b;
-  width: 16px;
-  height: 16px;
+  accent-color: var(--w-black);
+  width: 14px;
+  height: 14px;
   cursor: pointer;
 }
 
 /* ========================================================
-   3. 역할 카드 그리드 (Role Cards Grid)
+   3. W CONCEPT 스타일 큐레이션 카드 그리드 (Lookbook Cards)
    ======================================================== */
-.board-section-title {
+.board-header {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
-  margin-bottom: 20px;
-  padding: 0 4px;
+  border-bottom: 2px solid var(--w-black);
+  padding-bottom: 14px;
+  margin-bottom: 24px;
 }
 
-.board-section-title h3 {
-  font-family: 'Jua', sans-serif;
-  font-size: 22px;
-  color: #2b2d42;
+.board-title-group {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  align-items: baseline;
+  gap: 14px;
 }
 
-.board-actions-hint {
-  font-size: 13px;
-  color: #8b5cf6;
-  font-weight: 500;
-  background: #f5f3ff;
-  padding: 4px 12px;
-  border-radius: 12px;
-  border: 1px dashed #c4b5fd;
+.board-title-group h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--w-black);
+  text-transform: uppercase;
 }
 
+.board-count-badge {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--w-gray);
+}
+
+.board-hint {
+  font-size: 12px;
+  color: var(--w-gray);
+  letter-spacing: 0.5px;
+}
+
+/* 카드 그리드 */
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 20px;
 }
 
-/* 개별 역할 카드 */
+/* W Concept 감성의 모던 카드 */
 .role-card {
-  background: #ffffff;
-  border-radius: var(--card-radius);
-  padding: 20px;
-  border: 2.5px solid #ffd8e4;
-  box-shadow: var(--shadow-card);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background: var(--w-white);
+  border: 1px solid var(--w-black);
+  padding: 24px 20px;
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(17, 17, 17, 0.04);
 }
 
 .role-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-4px);
   box-shadow: var(--shadow-hover);
-  border-color: #ff9ebb;
+  border-color: var(--w-black);
 }
 
-/* 테마별 파스텔 카드 악센트 색상 클래스 */
-.theme-pink {
-  border-color: var(--pastel-pink-border);
-  background: linear-gradient(180deg, #ffffff 60%, var(--pastel-pink) 100%);
-}
-.theme-mint {
-  border-color: var(--pastel-mint-border);
-  background: linear-gradient(180deg, #ffffff 60%, var(--pastel-mint) 100%);
-}
-.theme-blue {
-  border-color: var(--pastel-blue-border);
-  background: linear-gradient(180deg, #ffffff 60%, var(--pastel-blue) 100%);
-}
-.theme-yellow {
-  border-color: var(--pastel-yellow-border);
-  background: linear-gradient(180deg, #ffffff 60%, var(--pastel-yellow) 100%);
-}
-.theme-lavender {
-  border-color: var(--pastel-lavender-border);
-  background: linear-gradient(180deg, #ffffff 60%, var(--pastel-lavender) 100%);
-}
-.theme-orange {
-  border-color: var(--pastel-orange-border);
-  background: linear-gradient(180deg, #ffffff 60%, var(--pastel-orange) 100%);
+/* 테마 컬러 포인트 - 은은한 W Concept 톤 */
+.theme-pink, .theme-mint, .theme-blue, .theme-yellow, .theme-lavender, .theme-orange {
+  background: var(--w-white);
 }
 
 .card-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
+  border-bottom: 1px solid var(--w-light-gray);
+  padding-bottom: 10px;
+  margin-bottom: 16px;
 }
 
 .role-num-badge {
-  font-family: 'Jua', sans-serif;
-  font-size: 13px;
-  background: #f1f5f9;
-  color: #475569;
-  padding: 2px 10px;
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--w-black);
+  text-transform: uppercase;
 }
 
 .card-swap-btn {
+  font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
   background: transparent;
-  border: none;
-  font-size: 13px;
-  color: #94a3b8;
+  border: 1px solid #d1d5db;
+  color: var(--w-gray);
   cursor: pointer;
-  padding: 2px 6px;
-  border-radius: 8px;
-  transition: all 0.15s;
+  padding: 3px 8px;
+  transition: all 0.2s;
 }
 
 .card-swap-btn:hover {
-  background: #f1f5f9;
-  color: #475569;
+  border-color: var(--w-black);
+  color: var(--w-black);
+  background: var(--pantone-lemon-icing);
 }
 
 .role-visual {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 20px;
 }
 
 .role-emoji-wrap {
-  font-size: 32px;
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
-  background: #ffffff;
+  font-size: 26px;
+  width: 48px;
+  height: 48px;
+  background: var(--lemon-icing-light);
+  border: 1px solid var(--lemon-icing-border);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  border: 1.5px solid rgba(0, 0, 0, 0.06);
   flex-shrink: 0;
 }
 
+.role-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .role-info h4 {
-  font-family: 'Jua', sans-serif;
-  font-size: 19px;
-  color: #1f2937;
-  letter-spacing: -0.3px;
+  font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: var(--w-black);
 }
 
 .role-info p {
   font-size: 12px;
-  color: var(--text-muted);
-  line-height: 1.35;
-  margin-top: 2px;
+  color: var(--w-gray);
+  line-height: 1.5;
 }
 
-/* 배정된 학생 영역 */
+/* 배정된 학생 영역 (W Concept 상품 큐레이터 룩) */
 .student-slot {
   margin-top: auto;
-  padding-top: 14px;
+  padding-top: 16px;
+  border-top: 1px solid var(--w-light-gray);
 }
 
 .student-box {
-  background: #ffffff;
-  border: 2px solid #fecdd3;
-  border-radius: 16px;
+  background: var(--lemon-icing-light);
+  border: 1px solid #111;
   padding: 10px 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.04);
   transition: all 0.25s;
 }
 
 .student-assigned {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  width: 100%;
 }
 
-.student-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #fee2e2;
-  color: #e11d48;
-  font-family: 'Jua', sans-serif;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  border: 1.5px solid #fca5a5;
+.student-tag-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--w-gray);
 }
 
 .student-name {
-  font-family: 'Jua', sans-serif;
-  font-size: 18px;
-  color: #1e293b;
-  letter-spacing: 0.3px;
+  font-family: 'Cinzel', 'Noto Sans KR', serif;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--w-black);
 }
 
 .student-empty {
-  color: #94a3b8;
-  font-size: 14px;
-  font-style: italic;
+  color: var(--w-gray);
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin: 0 auto;
+  justify-content: center;
+  width: 100%;
+  padding: 2px 0;
 }
 
-/* 애니메이션 중 셔플 룰렛 효과 */
+/* 셔플 애니메이션 */
 .card-shuffling {
-  animation: cardPulse 0.4s ease-in-out infinite alternate;
+  border-color: var(--w-black);
+  box-shadow: 0 0 0 2px var(--w-black);
+  animation: wPulse 0.35s ease-in-out infinite alternate;
 }
 
-@keyframes cardPulse {
-  0% { transform: scale(0.98); filter: brightness(0.96); }
-  100% { transform: scale(1.02); filter: brightness(1.04); }
+@keyframes wPulse {
+  0% { transform: scale(0.99); opacity: 0.85; }
+  100% { transform: scale(1.01); opacity: 1; }
 }
 
 .card-revealed {
-  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  animation: wReveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes popIn {
-  0% { transform: scale(0.85); opacity: 0; }
-  70% { transform: scale(1.05); opacity: 1; }
-  100% { transform: scale(1); opacity: 1; }
+@keyframes wReveal {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 /* ========================================================
-   4. 모달 스타일 (관리창, 스프레드시트 연동, 인쇄 미리보기)
+   4. 모달창 (W CONCEPT 미니멀 에디토리얼 모달)
    ======================================================== */
 .modal-overlay {
   position: fixed;
@@ -664,8 +678,8 @@ body {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(30, 41, 59, 0.55);
-  backdrop-filter: blur(4px);
+  background: rgba(17, 17, 17, 0.7);
+  backdrop-filter: blur(2px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -682,108 +696,106 @@ body {
 }
 
 .modal-dialog {
-  background: #ffffff;
+  background: var(--w-white);
   width: 100%;
-  max-width: 640px;
+  max-width: 660px;
   max-height: 90vh;
-  border-radius: 26px;
-  border: 3px solid #ffd4dc;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--w-black);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  transform: translateY(20px) scale(0.95);
+  transform: translateY(20px);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .modal-overlay.active .modal-dialog {
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
 }
 
 .modal-header {
-  padding: 20px 24px;
-  background: linear-gradient(135deg, #fff1f2 0%, #fff7ed 100%);
-  border-bottom: 2px solid #fee2e2;
+  padding: 20px 28px;
+  background: var(--w-white);
+  border-bottom: 1px solid var(--w-black);
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .modal-header h3 {
-  font-family: 'Jua', sans-serif;
-  font-size: 20px;
-  color: #1f2937;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  font-family: 'Cinzel', 'Noto Sans KR', serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--w-black);
 }
 
 .btn-close-modal {
   background: transparent;
   border: none;
-  font-size: 22px;
+  font-size: 24px;
   cursor: pointer;
-  color: #9ca3af;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
+  color: var(--w-black);
+  line-height: 1;
+  padding: 4px;
+  transition: opacity 0.2s;
 }
 
 .btn-close-modal:hover {
-  background: #fee2e2;
-  color: #e11d48;
+  opacity: 0.5;
 }
 
 .modal-body {
-  padding: 24px;
+  padding: 28px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
+  background: var(--lemon-icing-light);
 }
 
 .modal-footer {
-  padding: 16px 24px;
-  background: #f8fafc;
-  border-top: 1px solid #e2e8f0;
+  padding: 18px 28px;
+  background: var(--w-white);
+  border-top: 1px solid var(--w-light-gray);
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 10px;
+  gap: 12px;
 }
 
-/* 관리 탭 */
+/* 탭 네비게이션 */
 .tab-headers {
   display: flex;
-  border-bottom: 2px solid #f1f5f9;
-  gap: 8px;
+  border-bottom: 1px solid var(--w-black);
+  gap: 0;
 }
 
 .tab-btn {
-  font-family: 'Jua', sans-serif;
-  font-size: 15px;
-  padding: 8px 16px;
+  font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 10px 20px;
   background: transparent;
   border: none;
-  border-bottom: 3px solid transparent;
-  color: #64748b;
+  border-bottom: 2px solid transparent;
+  color: var(--w-gray);
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .tab-btn.active {
-  color: #e11d48;
-  border-bottom-color: #e11d48;
+  color: var(--w-black);
+  border-bottom-color: var(--w-black);
 }
 
 .tab-pane {
   display: none;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .tab-pane.active {
@@ -794,59 +806,63 @@ body {
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .form-group label {
-  font-family: 'Jua', sans-serif;
-  font-size: 14px;
-  color: #374151;
+  font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--w-black);
 }
 
 .form-group textarea,
 .form-group input[type="text"] {
-  border: 2px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 10px 14px;
-  font-family: 'Noto Sans KR', sans-serif;
-  font-size: 14px;
+  border: 1px solid var(--w-black);
+  background: var(--w-white);
+  padding: 12px 14px;
+  font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+  font-size: 13px;
+  color: var(--w-black);
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.2s;
 }
 
 .form-group textarea:focus,
 .form-group input[type="text"]:focus {
-  border-color: #f43f5e;
+  background: var(--w-white);
+  box-shadow: 0 0 0 2px var(--w-black);
 }
 
 .guide-box {
-  background: #f0fdf4;
-  border: 1.5px dashed #86efac;
-  border-radius: 12px;
-  padding: 12px 16px;
+  background: var(--w-white);
+  border: 1px solid var(--lemon-icing-border);
+  padding: 14px 18px;
   font-size: 13px;
-  color: #166534;
-  line-height: 1.5;
+  color: var(--w-dark-gray);
+  line-height: 1.6;
 }
 
 .code-box {
-  background: #1e293b;
-  color: #f8fafc;
-  padding: 12px;
-  border-radius: 10px;
+  background: var(--w-black);
+  color: #F6EBC8;
+  padding: 14px;
   font-family: monospace;
   font-size: 12px;
   overflow-x: auto;
   user-select: all;
-  margin-top: 6px;
+  margin-top: 8px;
+  border: 1px solid #333;
 }
 
 /* ========================================================
-   5. 토스트 알림 (Toast Notification)
+   5. 토스트 알림
    ======================================================== */
 .toast-container {
   position: fixed;
-  bottom: 24px;
+  bottom: 30px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -857,30 +873,35 @@ body {
 }
 
 .toast {
-  background: #1f2937;
-  color: #ffffff;
-  padding: 12px 24px;
-  border-radius: 9999px;
-  font-family: 'Jua', sans-serif;
-  font-size: 15px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  background: var(--w-black);
+  color: #F6EBC8;
+  border: 1px solid #333;
+  padding: 12px 28px;
+  font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   animation: slideToast 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   pointer-events: auto;
 }
 
 .toast.success {
-  background: #059669;
+  background: #064e3b;
+  color: #ecfdf5;
 }
 
 .toast.info {
-  background: #2563eb;
+  background: var(--w-black);
+  color: #F6EBC8;
 }
 
 .toast.warning {
-  background: #d97706;
+  background: #78350f;
+  color: #fef3c7;
 }
 
 @keyframes slideToast {
@@ -888,7 +909,6 @@ body {
   100% { transform: translateY(0); opacity: 1; }
 }
 
-/* 폭죽 축하 캔버스 */
 #confetti-canvas {
   position: fixed;
   top: 0;
@@ -900,9 +920,8 @@ body {
 }
 
 /* ========================================================
-   6. 교실 게시판 부착용 A4 인쇄 전용 영역 & @media print
+   6. W CONCEPT 스타일 교실 게시판 부착용 A4 인쇄 레이아웃
    ======================================================== */
-/* 화면에서는 인쇄용 뷰를 숨기거나 미리보기 모달 안에서만 확인 */
 #print-section {
   display: none;
 }
@@ -910,21 +929,20 @@ body {
 @media print {
   @page {
     size: A4 portrait;
-    margin: 10mm 12mm;
+    margin: 12mm 14mm;
   }
 
   body {
     background: #ffffff !important;
     background-image: none !important;
-    color: #000000 !important;
-    font-size: 11pt;
+    color: #111111 !important;
     padding: 0;
     margin: 0;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
-  /* 인쇄 시 화면용 모든 UI 숨김 */
+  .w-top-notice,
   .app-container,
   .modal-overlay,
   .toast-container,
@@ -932,7 +950,6 @@ body {
     display: none !important;
   }
 
-  /* 인쇄 전용 게시판 뷰 표출 */
   #print-section {
     display: block !important;
     width: 100%;
@@ -940,54 +957,63 @@ body {
   }
 
   .print-banner {
-    text-align: center;
-    border-bottom: 3px double #333333;
-    padding-bottom: 12px;
+    border-top: 3px solid #111111;
+    border-bottom: 1px solid #111111;
+    padding: 14px 0 10px;
     margin-bottom: 14px;
+    text-align: center;
+  }
+
+  .print-super-title {
+    font-family: 'Cinzel', serif;
+    font-size: 10pt;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #444444;
+    margin-bottom: 4px;
   }
 
   .print-title {
-    font-family: 'Jua', 'Noto Sans KR', sans-serif;
-    font-size: 26pt;
-    color: #111827;
+    font-family: 'Cinzel', 'Noto Sans KR', serif;
+    font-size: 22pt;
+    font-weight: 800;
+    color: #111111;
+    letter-spacing: 1px;
     margin-bottom: 6px;
-    letter-spacing: -0.5px;
   }
 
   .print-subtitle {
-    font-size: 11pt;
-    color: #4b5563;
-    margin-bottom: 6px;
+    font-size: 9.5pt;
+    color: #555555;
+    letter-spacing: 0.5px;
   }
 
   .print-meta-bar {
     display: flex;
     justify-content: space-between;
-    font-size: 10pt;
-    color: #374151;
-    font-weight: 500;
-    margin-top: 8px;
-    padding: 0 4px;
+    font-size: 9.5pt;
+    color: #333333;
+    font-weight: 600;
+    margin-top: 10px;
+    padding: 6px 4px 0;
+    border-top: 1px dashed #cccccc;
   }
 
-  /* 인쇄용 2열 카드/테이블 그리드 (A4 1장에 12개가 꽉 차고 정갈하게 들어감) */
   .print-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    margin-top: 14px;
+    gap: 8px;
+    margin-top: 10px;
   }
 
   .print-card {
-    border: 1.5px solid #64748b;
-    border-radius: 10px;
-    padding: 8px 12px;
+    border: 1px solid #111111;
+    padding: 7px 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background: #fafafa !important;
+    background: #ffffff !important;
     height: 100%;
-    box-sizing: border-box;
     page-break-inside: avoid;
   }
 
@@ -995,102 +1021,123 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px dashed #cbd5e1;
-    padding-bottom: 4px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 3px;
     margin-bottom: 4px;
   }
 
   .print-role-title {
-    font-family: 'Jua', sans-serif;
-    font-size: 13pt;
-    color: #1e293b;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 11pt;
+    font-weight: 700;
+    color: #111111;
     display: flex;
     align-items: center;
     gap: 6px;
   }
 
   .print-role-num {
-    font-size: 9pt;
-    color: #64748b;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8.5pt;
     font-weight: 700;
+    color: #555555;
   }
 
   .print-role-desc {
-    font-size: 8.5pt;
-    color: #475569;
+    font-size: 8pt;
+    color: #555555;
     line-height: 1.3;
-    margin-bottom: 6px;
+    margin-bottom: 5px;
   }
 
   .print-assigned-box {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #ffffff !important;
-    border: 1.5px solid #000000;
-    border-radius: 6px;
+    background: #fbfbfb !important;
+    border: 1px solid #111111;
     padding: 4px 8px;
   }
 
   .print-student-label {
-    font-size: 8.5pt;
-    color: #64748b;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 7.5pt;
+    letter-spacing: 1px;
+    color: #555555;
+    font-weight: 600;
   }
 
   .print-student-name {
-    font-family: 'Jua', sans-serif;
-    font-size: 13pt;
-    font-weight: bold;
-    color: #000000;
+    font-family: 'Cinzel', 'Noto Sans KR', serif;
+    font-size: 12pt;
+    font-weight: 800;
+    color: #111111;
   }
 
   .print-sign-box {
-    font-size: 8pt;
-    color: #94a3b8;
-    border-left: 1px solid #cbd5e1;
-    padding-left: 8px;
+    font-size: 7.5pt;
+    color: #888888;
+    border-left: 1px solid #cccccc;
+    padding-left: 6px;
   }
 
   .print-footer {
-    margin-top: 16px;
+    margin-top: 14px;
     padding-top: 8px;
-    border-top: 1px solid #94a3b8;
+    border-top: 1px solid #111111;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 9pt;
-    color: #64748b;
+    font-size: 8.5pt;
+    color: #555555;
   }
 
   .print-footer-sign {
-    font-family: 'Jua', sans-serif;
-    font-size: 11pt;
-    color: #1e293b;
+    font-family: 'Cinzel', serif;
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: #111111;
   }
 }
 
 /* ========================================================
-   7. 반응형 웹 스타일 (Mobile & Tablet)
+   7. 반응형 미디어 쿼리
    ======================================================== */
-@media (max-width: 768px) {
-  .app-header {
-    padding: 18px 20px;
+@media (max-width: 900px) {
+  .hero-main-content {
     flex-direction: column;
     align-items: stretch;
   }
 
-  .brand-section {
-    justify-content: center;
+  .action-buttons-wrap {
+    align-items: stretch;
   }
 
-  .header-actions {
-    justify-content: center;
-  }
-
-  .btn-primary-action {
-    font-size: 18px;
-    padding: 14px 24px;
+  .action-buttons {
+    flex-direction: column;
     width: 100%;
+  }
+
+  .btn-primary-action, .btn-secondary-action, .btn-reset-action {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .header-primary-row,
+  .header-actions-row {
+    padding: 16px 20px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-buttons {
+    justify-content: stretch;
+  }
+
+  .btn-tool {
+    flex: 1;
     justify-content: center;
   }
 

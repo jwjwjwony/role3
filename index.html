@@ -3,175 +3,199 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>학급 1인 1역할 배정 도우미</title>
-  <meta name="description" content="초등학교 교실을 위한 귀엽고 산뜻한 1인 1역할 무작위 배정 및 A4 인쇄 출력 웹 애플리케이션" />
-  <meta property="og:title" content="학급 1인 1역할 배정 도우미" />
-  <meta property="og:description" content="초등학교 교실을 위한 귀엽고 산뜻한 1인 1역할 무작위 배정 및 A4 인쇄 출력 웹 애플리케이션" />
+  <title>W.CLASSROOM | 학급 1인 1역할 큐레이션</title>
+  <meta name="description" content="W Concept 스타일의 모던 에디토리얼 학급 1인 1역할 배정 및 게시판 인쇄 서비스" />
+  <meta property="og:title" content="W.CLASSROOM | 학급 1인 1역할 큐레이션" />
+  <meta property="og:description" content="W Concept 스타일의 모던 에디토리얼 학급 1인 1역할 배정 및 게시판 인쇄 서비스" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- 웹폰트 & 파스텔 스타일시트 연결 -->
+  <!-- 에디토리얼 스타일시트 연결 -->
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
 
-  <!-- 축하 폭죽 캔버스 (배정 완료 시 발사) -->
+  <!-- W Concept 시그니처 탑 공지 바 -->
+  <div class="w-top-notice">
+    <span>W.CONCEPT EDITORIAL ARCHIVE</span>
+    <span class="bullet">/</span>
+    <span>2026 S/S AUTONOMOUS CLASSROOM ROLE CURATION</span>
+    <span class="bullet">/</span>
+    <span>PANTONE LEMON ICING EDITION</span>
+  </div>
+
+  <!-- 축하 캔버스 -->
   <canvas id="confetti-canvas"></canvas>
 
-  <!-- 웹 화면 메인 컨테이너 -->
+  <!-- 메인 레이아웃 컨테이너 -->
   <div class="app-container">
 
-    <!-- 1. 상단 헤더 & 메뉴 툴바 -->
+    <!-- 1. W Concept 스타일 헤더 -->
     <header class="app-header">
-      <div class="brand-section">
-        <div class="brand-icon">🏫</div>
-        <div class="brand-text">
-          <h1>우리 반 1인 1역할 배정판 <span class="brand-badge">2026</span></h1>
-          <p>모두가 즐겁고 소중하게 교실을 가꾸는 행복한 우리 반 역할 도우미 ✨</p>
+      <div class="header-primary-row">
+        <div class="brand-section">
+          <div class="brand-logo-wrap">
+            <span class="brand-logo">W.CLASS</span>
+            <span class="brand-submark">CLASSROOM CURATION</span>
+          </div>
+          <p class="brand-desc">자율적이고 책임감 있는 교실 공동체를 위한 모던 1인 1역할 배정 플랫폼</p>
+        </div>
+
+        <!-- 학급명 설정 -->
+        <div class="class-info-badge">
+          <label for="class-name-input">CLASS EDITION</label>
+          <input type="text" id="class-name-input" class="class-info-input" value="3학년 2반" placeholder="학년 반" />
         </div>
       </div>
 
-      <div class="header-actions">
-        <!-- 학급명 설정 뱃지 -->
-        <div class="class-info-badge">
-          <label for="class-name-input">🏷️ 학급명:</label>
-          <input type="text" id="class-name-input" class="class-info-input" value="3학년 2반" placeholder="학년 반" />
+      <!-- 상단 액션 툴바 -->
+      <div class="header-actions-row">
+        <div class="header-buttons">
+          <!-- 구글 스프레드시트 연동 버튼 -->
+          <button id="btn-sheet-load" class="btn-tool btn-sheet-load" title="구글 스프레드시트에서 명단/역할 데이터 로드">
+            <span>🔄</span> LOAD SHEET
+          </button>
+          <button id="btn-sheet-save" class="btn-tool btn-sheet-save" title="배정 결과를 구글 스프레드시트에 저장">
+            <span>💾</span> SAVE TO SHEET
+          </button>
+          <!-- 명단 & 역할 관리 -->
+          <button id="btn-manage-data" class="btn-tool" title="학생 명단 및 역할 목록 편집">
+            <span>⚙️</span> MANAGE DATA
+          </button>
         </div>
 
-        <!-- 요구사항: 구글 스프레드시트(Apps Script) 연동 버튼 -->
-        <button id="btn-sheet-load" class="btn-tool btn-sheet-load" title="구글 스프레드시트에서 명단/역할 가져오기">
-          🔄 시트 불러오기
-        </button>
-        <button id="btn-sheet-save" class="btn-tool btn-sheet-save" title="배정 결과를 구글 스프레드시트에 전송하여 저장">
-          💾 시트에 결과 저장
-        </button>
-
-        <!-- 명단 & 역할 관리 -->
-        <button id="btn-manage-data" class="btn-tool btn-manage" title="학생 명단과 역할 목록 수정">
-          👥 명단·역할 관리
-        </button>
-
-        <!-- A4 인쇄 기능 -->
-        <button id="btn-print" class="btn-tool btn-print" title="교실 게시판 부착용 A4 크기로 깔끔하게 인쇄">
-          🖨️ A4 게시판 인쇄
-        </button>
-
-        <!-- 효과음 토글 -->
-        <button id="btn-toggle-sound" class="btn-tool btn-sound" title="효과음 켜기/끄기">
-          🔊 소리 켜짐
-        </button>
+        <div class="header-buttons">
+          <!-- A4 인쇄 기능 -->
+          <button id="btn-print" class="btn-tool btn-print" title="교실 게시판 부착용 A4 인쇄">
+            <span>🖨️</span> PRINT A4 POSTER
+          </button>
+          <!-- 사운드 토글 -->
+          <button id="btn-toggle-sound" class="btn-tool btn-sound" title="효과음 켜기/끄기">
+            🔊 SOUND ON
+          </button>
+        </div>
       </div>
     </header>
 
-    <!-- 2. 메인 컨트롤 히어로 섹션 -->
+    <!-- 2. W CONCEPT 룩북 배너 & 배정 컨트롤 히어로 -->
     <section class="control-hero">
-      <div class="control-header">
-        <h2>🎲 두구두구! 오늘의 1인 1역할은 누구일까요?</h2>
-        <p>버튼을 누르면 학생 12명과 12개의 역할이 1:1로 공정하고 재미있게 매칭됩니다.</p>
+      <div class="hero-editorial-top">
+        <span>CURATED EDITION — VOL. 01</span>
+        <span>AUTONOMOUS ROLE ASSIGNMENT</span>
       </div>
 
-      <!-- 통계 바 -->
-      <div class="stats-bar">
-        <div class="stat-item">
-          <span>👦👧 전체 학생:</span>
-          <strong id="stat-students">12명</strong>
-        </div>
-        <div class="stat-item">
-          <span>📋 배정 역할:</span>
-          <strong id="stat-roles">12개</strong>
-        </div>
-        <div class="stat-item">
-          <span>✨ 배정 완료:</span>
-          <strong id="stat-assigned">0명</strong>
-        </div>
-      </div>
+      <div class="hero-main-content">
+        <div class="hero-title-group">
+          <h2>CLASSROOM ROLE CURATION</h2>
+          <p>모두가 주인공이 되는 1인 1역할. 버튼을 클릭하면 학생과 역할이 1:1로 공정하고 감각적으로 매칭됩니다.</p>
 
-      <!-- 핵심 액션 버튼 모음 -->
-      <div class="action-buttons">
-        <button id="btn-assign" class="btn-primary-action">
-          <span>🎲 역할 배정하기</span>
-        </button>
-        <button id="btn-shuffle" class="btn-secondary-action">
-          <span>🔀 다시 섞기</span>
-        </button>
-        <button id="btn-reset" class="btn-reset-action">
-          <span>🧹 배정 초기화</span>
-        </button>
-      </div>
+          <!-- 룩북 통계 카운터 바 -->
+          <div class="stats-bar">
+            <div class="stat-item">
+              <span class="stat-label">STUDENTS</span>
+              <strong id="stat-students">12명</strong>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">TOTAL ROLES</span>
+              <strong id="stat-roles">12개</strong>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">MATCHED</span>
+              <strong id="stat-assigned">0명</strong>
+            </div>
+          </div>
+        </div>
 
-      <div>
-        <label class="animation-switch">
-          <input type="checkbox" id="chk-dramatic" checked />
-          <span>두구두구 룰렛 애니메이션 활성화</span>
-        </label>
+        <!-- 핵심 배정 액션 버튼 그룹 -->
+        <div class="action-buttons-wrap">
+          <div class="action-buttons">
+            <button id="btn-assign" class="btn-primary-action">
+              <span>🎲</span> ASSIGN ROLES
+            </button>
+            <button id="btn-shuffle" class="btn-secondary-action">
+              <span>🔀</span> RE-SHUFFLE
+            </button>
+            <button id="btn-reset" class="btn-reset-action">
+              <span>🧹</span> RESET
+            </button>
+          </div>
+
+          <label class="animation-switch">
+            <input type="checkbox" id="chk-dramatic" checked />
+            <span>EDITORIAL SHUFFLE ANIMATION</span>
+          </label>
+        </div>
       </div>
     </section>
 
-    <!-- 3. 역할 카드 보드 그리드 -->
+    <!-- 3. 역할 큐레이션 카드 그리드 (Lookbook Grid) -->
     <main>
-      <div class="board-section-title">
-        <h3>📋 우리 반 역할 현황판</h3>
-        <span class="board-actions-hint">💡 각 카드의 [✏️ 변경]을 누르면 담당 학생을 직접 바꿀 수 있어요!</span>
+      <div class="board-header">
+        <div class="board-title-group">
+          <h3>ROLE ARCHIVE</h3>
+          <span class="board-count-badge">ITEMS (12)</span>
+        </div>
+        <span class="board-hint">카드 상단의 [EDIT] 버튼으로 담당 학생을 직접 조정할 수 있습니다.</span>
       </div>
 
       <!-- 카드 그리드 렌더링 컨테이너 -->
       <div id="cards-grid" class="cards-grid">
-        <!-- script.js에 의해 동적으로 12장의 파스텔 카드가 생성됩니다 -->
+        <!-- script.js에 의해 동적으로 모던 룩북 카드가 생성됩니다 -->
       </div>
     </main>
 
   </div>
 
   <!-- ========================================================
-       4. 교실 게시판 부착용 A4 깔끔 인쇄 전용 영역
-       (일반 웹 화면에서는 숨겨지며, 인쇄 시 자동으로 출력)
+       4. 교실 게시판 부착용 A4 에디토리얼 인쇄 레이아웃
        ======================================================== -->
   <section id="print-section">
     <div class="print-banner">
-      <h1 class="print-title">🏫 <span id="print-class-title">3학년 2반</span> 1인 1역할 배정표</h1>
-      <p class="print-subtitle">"우리가 함께 가꾸는 행복하고 깨끗한 교실! 나의 소중한 책임을 다해요."</p>
+      <div class="print-super-title">AUTONOMOUS CLASSROOM ROLE ARCHIVE — 2026 S/S</div>
+      <h1 class="print-title"><span id="print-class-title">3학년 2반</span> 1인 1역할 배정표</h1>
+      <p class="print-subtitle">"각자의 자리에서 빛나는 우리들의 소중한 책임과 약속"</p>
       <div class="print-meta-bar">
-        <span>📍 게시판 부착용</span>
+        <span>COLLECTION: CLASS BOARD POSTER</span>
         <span id="print-date">2026년 3월 1일 기준</span>
-        <span>담임교사 확인 ( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>
+        <span>HOMEROOM TEACHER SIGN ( &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</span>
       </div>
     </div>
 
     <!-- A4 인쇄용 2열 정갈한 카드 그리드 -->
     <div id="print-grid" class="print-grid">
-      <!-- script.js에 의해 인쇄 시 표/카드로 들어갑니다 -->
+      <!-- script.js에 의해 동적 렌더링 -->
     </div>
 
     <div class="print-footer">
-      <span>* 주간 실천 점검표: 매주 금요일 방과 후 스스로 나의 실천을 되돌아보고 확인란에 서명합니다.</span>
-      <span class="print-footer-sign">함께하는 우리 반 최고! 👍</span>
+      <span>* WEEKLY CHECKLIST: 매주 금요일 방과 후 스스로 나의 실천을 점검하고 확인란에 서명합니다.</span>
+      <span class="print-footer-sign">W.CLASSROOM EDITION</span>
     </div>
   </section>
 
   <!-- ========================================================
-       5. 팝업 모달창들
+       5. 팝업 모달창 (W Concept 에디토리얼 스타일)
        ======================================================== -->
 
   <!-- [모달 1] 학생 명단 및 역할 관리 모달 -->
   <div id="modal-manage" class="modal-overlay">
     <div class="modal-dialog">
       <div class="modal-header">
-        <h3>⚙️ 명단 및 역할 관리</h3>
+        <h3>DATA MANAGEMENT</h3>
         <button class="btn-close-modal" data-close-modal="modal-manage">&times;</button>
       </div>
       <div class="modal-body">
         <div class="tab-headers">
-          <button class="tab-btn active" data-tab="tab-students">👦👧 학생 명단</button>
-          <button class="tab-btn" data-tab="tab-roles">📋 학급 역할</button>
+          <button class="tab-btn active" data-tab="tab-students">STUDENTS (학생 명단)</button>
+          <button class="tab-btn" data-tab="tab-roles">ROLES (학급 역할)</button>
         </div>
 
         <!-- 학생 탭 -->
         <div id="tab-students" class="tab-pane active">
           <div class="guide-box">
-            줄바꿈(엔터)으로 학생 이름을 한 줄에 한 명씩 입력해 주세요. (기본 12명)
+            한 줄에 학생 이름을 한 명씩 입력해 주세요. (기본 12명 구성)
           </div>
           <div class="form-group">
-            <label for="manage-students-input">학생 이름 목록:</label>
+            <label for="manage-students-input">STUDENT LIST:</label>
             <textarea id="manage-students-input" rows="8" placeholder="김민준&#10;이서아&#10;박도윤..."></textarea>
           </div>
         </div>
@@ -179,21 +203,21 @@
         <!-- 역할 탭 -->
         <div id="tab-roles" class="tab-pane">
           <div class="guide-box">
-            형식: <code>역할이름 | 역할설명 | 이모지</code> 형태로 한 줄에 하나씩 입력해 주세요.
+            입력 형식: <code>역할이름 | 역할설명 | 이모지</code> (한 줄에 하나씩)
           </div>
           <div class="form-group">
-            <label for="manage-roles-input">역할 목록:</label>
+            <label for="manage-roles-input">ROLE LIST:</label>
             <textarea id="manage-roles-input" rows="8" placeholder="칠판 지우미 | 쉬는 시간마다 칠판을 닦아요 | 🧼"></textarea>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button id="btn-reset-default" class="btn-tool" style="margin-right: auto; background: #fee2e2; color: #dc2626;">
-          기본 12명/12역할 복원
+        <button id="btn-reset-default" class="btn-tool" style="margin-right: auto;">
+          DEFAULT RESET (12/12)
         </button>
-        <button class="btn-tool" data-close-modal="modal-manage">취소</button>
-        <button id="btn-save-management" class="btn-tool btn-sheet-load" style="background:#059669; color:#fff;">
-          💾 저장 및 적용
+        <button class="btn-tool" data-close-modal="modal-manage">CANCEL</button>
+        <button id="btn-save-management" class="btn-tool" style="background: #111; color: #fff;">
+          APPLY CHANGES
         </button>
       </div>
     </div>
@@ -203,16 +227,16 @@
   <div id="modal-sheet" class="modal-overlay">
     <div class="modal-dialog">
       <div class="modal-header">
-        <h3>📊 구글 스프레드시트(Apps Script) 연동</h3>
+        <h3>GOOGLE SHEETS SYNC</h3>
         <button class="btn-close-modal" data-close-modal="modal-sheet">&times;</button>
       </div>
       <div class="modal-body">
         <div class="guide-box">
-          구글 스프레드시트의 <strong>확장 프로그램 > Apps Script</strong>에 웹 앱을 배포한 후 발급받은 <strong>웹 앱 URL</strong>을 입력하면 실시간으로 명단을 불러오거나 배정 결과를 스프레드시트에 영구 저장할 수 있습니다.
+          Google Apps Script의 <strong>웹 앱 배포 URL</strong>을 연동하여 실시간으로 학생 명단을 불러오거나 배정 결과를 원격 시트에 저장할 수 있습니다.
         </div>
 
         <div class="form-group">
-          <label for="sheet-url-input">🔗 Google Apps Script 웹 앱 URL:</label>
+          <label for="sheet-url-input">APPS SCRIPT WEB APP URL:</label>
           <input
             type="text"
             id="sheet-url-input"
@@ -221,14 +245,13 @@
         </div>
 
         <details>
-          <summary style="cursor:pointer; font-family:'Jua',sans-serif; color:#4f46e5; margin-top:8px;">
-            📝 Apps Script 샘플 코드 보기 (클릭하여 펼치기)
+          <summary style="cursor:pointer; font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#111; margin-top:8px;">
+            ▸ VIEW APPS SCRIPT BOILERPLATE CODE
           </summary>
           <div class="code-box">
 function doGet(e) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   var data = sheet.getDataRange().getValues();
-  // 학생과 역할 데이터를 JSON 형식으로 반환
   return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
     .setMimeType(ContentService.MimeType.JSON);
 }
@@ -243,19 +266,19 @@ function doPost(e) {
           </div>
         </details>
 
-        <div style="border-top:1px dashed #cbd5e1; padding-top:12px; margin-top:8px;">
-          <label style="font-family:'Jua',sans-serif; font-size:14px; color:#475569;">
-            📁 시트 연동 전 백업용 다운로드:
+        <div style="border-top:1px dashed #d1d5db; padding-top:14px; margin-top:10px;">
+          <label style="font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#555;">
+            OFFLINE EXPORT:
           </label>
-          <div style="margin-top:6px;">
-            <button id="btn-export-csv" class="btn-tool btn-sheet-save">
-              📥 현재 배정표 CSV 파일 다운로드
+          <div style="margin-top:8px;">
+            <button id="btn-export-csv" class="btn-tool">
+              DOWNLOAD AS CSV (.CSV)
             </button>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn-tool" data-close-modal="modal-sheet">닫기</button>
+        <button class="btn-tool" data-close-modal="modal-sheet">CLOSE</button>
       </div>
     </div>
   </div>
@@ -263,7 +286,7 @@ function doPost(e) {
   <!-- 토스트 알림 컨테이너 -->
   <div id="toast-container" class="toast-container"></div>
 
-  <!-- 분리된 자바스크립트 로직 로드 -->
+  <!-- 스크립트 연결 -->
   <script src="./script.js"></script>
 </body>
 </html>
